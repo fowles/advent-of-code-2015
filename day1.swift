@@ -1,6 +1,7 @@
 import Foundation;
 
-func part1(_ raw:String) -> Int {
+struct Day1 {
+static func part1(_ raw:String) -> Int {
   var lvl = 0;
   for c in raw {
     switch c {
@@ -12,7 +13,7 @@ func part1(_ raw:String) -> Int {
   return lvl
 }
 
-func part2(_ raw:String) -> Int {
+static func part2(_ raw:String) -> Int {
   var lvl = 0;
   for (i, c) in raw.enumerated() {
     switch c {
@@ -27,9 +28,10 @@ func part2(_ raw:String) -> Int {
   return -1
 }
 
-func day1() throws {
+static func main() throws {
   let raw = try String(contentsOfFile:"input/day1.txt")
 
   print("Day 1 part 1:", part1(raw));
   print("Day 1 part 2:", part2(raw));
+}
 }

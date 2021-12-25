@@ -2,7 +2,7 @@ import Darwin
 
 do {
   chdir(getenv("BUILD_WORKING_DIRECTORY"))
-  try day1()
+  try Day1.main()
 } catch {
   print("Error: \(error).")
 }

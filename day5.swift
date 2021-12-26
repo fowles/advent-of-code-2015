@@ -29,6 +29,30 @@ private func isNice(_ l:String.SubSequence) -> Bool {
   return dup && vowels > 2;
 }
 
+private func isNicer(_ l:String.SubSequence) -> Bool {
+  var dup = false
+  for i in l.indices.dropLast(2) {
+    let j = l.index(i, offsetBy:2)
+    if l[i] == l[j] {
+      dup = true;
+      break;
+    }
+  }
+  if !dup {
+    return false
+  }
+
+  for i in l.indices.dropLast(2) {
+    let j = l.index(i, offsetBy:2)
+    let p = l[i..<j]
+    let s = l[j...]
+    if s.contains(p) {
+      return true
+    }
+  }
+  return false
+}
+
 struct Day5 {
 static func part1(_ lines:[String.SubSequence]) -> Int {
   var nice = 0;
@@ -40,8 +64,14 @@ static func part1(_ lines:[String.SubSequence]) -> Int {
   return nice;
 }
 
-static func part2(_ raw:[String.SubSequence]) -> Int {
-  return 0;
+static func part2(_ lines:[String.SubSequence]) -> Int {
+  var nice = 0;
+  for l in lines {
+    if (isNicer(l)) {
+      nice += 1
+    }
+  }
+  return nice;
 }
 
 static func main() throws {

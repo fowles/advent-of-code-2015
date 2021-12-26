@@ -1,44 +1,31 @@
 import Foundation
-import var CommonCrypto.CC_MD5_DIGEST_LENGTH
-import func CommonCrypto.CC_MD5
-import typealias CommonCrypto.CC_LONG
+import CryptoKit
 
-private func MD5(_ string: String) -> String {
-  let length = Int(CC_MD5_DIGEST_LENGTH)
-  let messageData = string.data(using:.utf8)!
-  var digestData = Data(count: length)
+private func MD5(of s: String, preceeds: [uint8] ) -> Int {
+  var buf = s
+  buf.append(String(Int.max))
 
-  _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in
-    messageData.withUnsafeBytes { messageBytes -> UInt8 in
-      if let messageBytesBaseAddress = messageBytes.baseAddress, let digestBytesBlindMemory = digestBytes.bindMemory(to: UInt8.self).baseAddress {
-        let messageLength = CC_LONG(messageData.count)
-          CC_MD5(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
-      }
-      return 0
+  for i in 1... {
+    buf.removeAll(keepingCapacity:true)
+    buf.append(s)
+    buf.append(String(i))
+    let computed = buf.data(using:.utf8)!.withUnsafeBytes { 
+      return Insecure.MD5.hash(data:$0)
+    }
+    if (computed.lexicographicallyPrecedes(preceeds)) {
+      return i
     }
   }
-  return digestData.map { String(format: "%02hhx", $0) }.joined()
+  return -1;
 }
 
 struct Day4 {
 static func part1(_ raw:String) -> Int {
-  for i in 1... {
-    let hex = MD5(raw + String(i));
-    if hex.starts(with:"00000") {
-      return i
-    }
-  }
-  return 0;
+  return MD5(of: raw, preceeds:[0x00, 0x00, 0x0F])
 }
 
 static func part2(_ raw:String) -> Int {
-  for i in 346387... {
-    let hex = MD5(raw + String(i));
-    if hex.starts(with:"000000") {
-      return i
-    }
-  }
-  return 0;
+  return MD5(of: raw, preceeds:[0x00, 0x00, 0x00, 0xFF])
 }
 
 static func main() throws {

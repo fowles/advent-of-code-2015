@@ -39,7 +39,13 @@ static func part1(_ wires:[(Input, String.SubSequence)]) -> Int {
 }
 
 static func part2(_ wires:[(Input, String.SubSequence)]) -> Int {
-  return 0;
+  var ctxt = [String.SubSequence:Input]()
+  for (input, wire) in wires {
+    ctxt[wire] = input
+  }
+  var ctxt2 = ctxt
+  ctxt2["b"] = Input.Val(eval("a", with:&ctxt))
+  return Int(eval("a", with:&ctxt2))
 }
 
 static func main() throws {

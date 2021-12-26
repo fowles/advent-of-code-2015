@@ -55,14 +55,14 @@ static func part2(_ commands:[(Command, [Int])]) -> Int64 {
 
 static func main() throws {
   let lines = try String(contentsOfFile:"input/day6.txt").split(separator:"\n")
-  let commands: [(Command, [Int])] = try lines.map {
+  let commands: [(Command, [Int])] = lines.map {
     let cmd: Command;
     switch $0[6] {
       case "n": cmd = Command.On
       case "f": cmd = Command.Off
       default:  cmd = Command.Toggle
     }
-    let coordinates = try $0.extract(regex:#"(\d+)"#).map({ Int($0)! })
+    let coordinates = $0.extract(regex:#"(\d+)"#)!.map({ Int($0)! })
     return (cmd, coordinates)
   }
 

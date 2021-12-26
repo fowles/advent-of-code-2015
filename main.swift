@@ -19,10 +19,15 @@ extension Array {
   }
 }
 
+extension String: Error {}
+
 public extension String.SubSequence {
-  func extract(regex: String) throws -> [String.SubSequence] {
-    let r = try NSRegularExpression(pattern: regex, options: [])
+  func extract(regex: String) -> [String.SubSequence]? {
+    let r = try! NSRegularExpression(pattern: regex, options: [])
     let matches = r.matches(in:String(self), options:[], range:NSMakeRange(0, self.count))
+    if matches.count == 0 {
+      return nil
+    }
 
     var res: [String.SubSequence] = []
     for m in matches {
@@ -63,7 +68,7 @@ public extension String.SubSequence {
 
 do {
   chdir(getenv("BUILD_WORKING_DIRECTORY"))
-  try Day6.main()
+  try Day7.main()
 } catch {
   print("Error: \(error).")
 }

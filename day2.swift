@@ -21,8 +21,8 @@ static func part2(_ dims:[(Int, Int, Int)]) -> Int {
 
 static func main() throws {
   let raw = try String(contentsOfFile:"input/day2.txt")
-  let lines: [(Int, Int, Int)] = try raw.split(separator:"\n").map {
-     try $0.extract(regex:#"(\d+)"#).map({ Int($0)! }).splat()
+  let lines: [(Int, Int, Int)] = raw.split(separator:"\n").map {
+     $0.extract(regex:#"(\d+)"#)!.map({ Int($0)! }).splat()
   }
 
   print("Day 2 part 1:", part1(lines))

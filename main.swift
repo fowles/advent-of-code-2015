@@ -34,11 +34,36 @@ public extension String.SubSequence {
     }
     return res;
   }
+
+  var length: Int {
+    return count
+  }
+
+  func substring(fromIndex: Int) -> String.SubSequence {
+    return self[Swift.min(fromIndex, count) ..< length]
+  }
+
+  func substring(toIndex: Int) -> String.SubSequence {
+    return self[0 ..< Swift.max(0, toIndex)]
+  }
+
+  subscript (i: Int) -> String.SubSequence {
+    return self[i ..< i + 1]
+  }
+
+  subscript (r: Range<Int>) -> String.SubSequence {
+    let range = Range(uncheckedBounds:
+                      (lower: Swift.max(0, Swift.min(length, r.lowerBound)),
+                       upper: Swift.min(length, Swift.max(0, r.upperBound))))
+    let start = index(startIndex, offsetBy: range.lowerBound)
+    let end = index(start, offsetBy: range.upperBound - range.lowerBound)
+    return self[start ..< end]
+  }
 }
 
 do {
   chdir(getenv("BUILD_WORKING_DIRECTORY"))
-  try Day5.main()
+  try Day6.main()
 } catch {
   print("Error: \(error).")
 }

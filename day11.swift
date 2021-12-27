@@ -65,12 +65,8 @@ static func part1(_ raw:String) -> String {
   }
 }
 
-static func part2(_ raw:String) -> String {
-  return raw;
-}
-
 static func main() throws {
   print("Day 11 part 1:", part1("cqjxjnds"));
-  print("Day 11 part 2:", part2("cqjxjnds"));
+  print("Day 11 part 2:", part1("cqjxxyzz"));
 }
 }

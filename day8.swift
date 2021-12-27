@@ -1,36 +1,53 @@
 import Foundation;
 
-private func Count(_ s: String.SubSequence) -> (Int, Int) {
+private func Decode(_ s: String.SubSequence) -> (Int, Int) {
   var bytes = -2  // for the first and last "
-  var i = s.startIndex
-  while i != s.endIndex {
+  var i = 0
+  while i < s.count {
     if s[i] == "\\" {
-      i = s.index(i, offsetBy:1)
+      i += 1
       if s[i] == "x" {
-        i = s.index(i, offsetBy:3)
+        i += 3
       } else {
-        i = s.index(i, offsetBy:1)
+        i += 1
       }
     } else {
-      i = s.index(i, offsetBy:1)
+      i += 1
     }
     bytes += 1
   }
   return (s.count, bytes);
 }
 
+private func Encode(_ s: String.SubSequence) -> (Int, Int) {
+  var chars = 2  // for the first and last "
+  for c in s {
+    switch c {
+      case "\"": chars += 2;
+      case "\\": chars += 2;
+      default: chars += 1
+    }
+  }
+  return (chars, s.count);
+}
+
 struct Day8 {
 static func part1(_ lines:[String.SubSequence]) -> Int {
   var res = 0
   for l in lines {
-    let (chars, bytes) = Count(l)
+    let (chars, bytes) = Decode(l)
     res += chars - bytes
   }
   return res
 }
 
 static func part2(_ lines:[String.SubSequence]) -> Int {
-  return 0;
+  var res = 0
+  for l in lines {
+    let (encoded, chars) = Encode(l)
+    res += encoded - chars
+  }
+  return res
 }
 
 static func main() throws {

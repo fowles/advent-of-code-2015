@@ -52,8 +52,8 @@ public extension String.SubSequence {
     return self[0 ..< Swift.max(0, toIndex)]
   }
 
-  subscript (i: Int) -> String.SubSequence {
-    return self[i ..< i + 1]
+  subscript (i: Int) -> Character {
+    return self[index(startIndex, offsetBy:Swift.min(i, length))]
   }
 
   subscript (r: Range<Int>) -> String.SubSequence {
@@ -68,7 +68,7 @@ public extension String.SubSequence {
 
 do {
   chdir(getenv("BUILD_WORKING_DIRECTORY"))
-  try Day9.main()
+  try Day10.main()
 } catch {
   print("Error: \(error).")
 }

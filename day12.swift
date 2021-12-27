@@ -1,5 +1,28 @@
 import Foundation;
 
+private func Count(_ a: Any) -> Int {
+  var res = 0
+  if let arr = a as? [Any] {
+    for p in arr {
+      res += Count(p)
+    }
+  }
+  if let dict = a as? [String:Any] {
+    for (_, v) in dict {
+      switch v {
+        case "red" as String:
+          return 0
+        default:
+          res += Count(v)
+      }
+    }
+  }
+  if let v = a as? Int {
+    res += v
+  }
+  return res
+}
+
 struct Day12 {
 static func part1(_ raw:String) -> Int {
   var res = 0
@@ -10,7 +33,9 @@ static func part1(_ raw:String) -> Int {
 }
 
 static func part2(_ raw:String) -> Int {
-  return 0;
+  let json = try! JSONSerialization.jsonObject(
+        with: raw.data(using:.utf8)!, options: [])
+  return Count(json)
 }
 
 static func main() throws {

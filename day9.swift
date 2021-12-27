@@ -54,8 +54,19 @@ static func part1(_ graph:[String.SubSequence:[(String.SubSequence, Int)]]) -> I
   return res
 }
 
-static func part2(_ routes:[(String.SubSequence, String.SubSequence, Int)]) -> Int {
-  return 0;
+static func part2(_ graph:[String.SubSequence:[(String.SubSequence, Int)]]) -> Int {
+  var toExpand = [Path]()
+  for k in graph.keys {
+    toExpand.append(Path(k, [], 0))
+  }
+  var res = Int.min
+  while let next = toExpand.popLast() {
+    if (next.visited.count == graph.count) {
+      res = max(res, next.distance)
+    }
+    toExpand.append(contentsOf:next.expand(graph))
+  }
+  return res
 }
 
 static func main() throws {
@@ -71,6 +82,6 @@ static func main() throws {
     graph[dest, default:[]].append((orig, distance))
   }
   print("Day 9 part 1:", part1(graph));
-  print("Day 9 part 2:", part2(routes));
+  print("Day 9 part 2:", part2(graph));
 }
 }

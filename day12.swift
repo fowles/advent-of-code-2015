@@ -2,7 +2,11 @@ import Foundation;
 
 struct Day12 {
 static func part1(_ raw:String) -> Int {
-  return 0;
+  var res = 0
+  for d in Substring(raw).extract(regex:#"(-?\d+)"#)! {
+    res += Int(d)!
+  }
+  return res;
 }
 
 static func part2(_ raw:String) -> Int {

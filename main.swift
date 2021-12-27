@@ -68,7 +68,7 @@ public extension String.SubSequence {
 
 do {
   chdir(getenv("BUILD_WORKING_DIRECTORY"))
-  try Day10.main()
+  try Day11.main()
 } catch {
   print("Error: \(error).")
 }

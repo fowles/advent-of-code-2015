@@ -32,7 +32,11 @@ static func part1(_ raw:String) -> Int {
 }
 
 static func part2(_ raw:String) -> Int {
-  return 0;
+  var m = raw
+  for _ in 0..<50 {
+    m = grow(m)
+  }
+  return m.count
 }
 
 static func main() throws {

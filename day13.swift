@@ -37,8 +37,19 @@ static func part1(_ people: [Substring], _ points: [Pair:Int]) -> Int {
   return maxHappy;
 }
 
-static func part2(_ people: [Substring], _ points: [Pair:Int]) -> Int {
-  return 0;
+static func part2(_ others: [Substring], _ points: [Pair:Int]) -> Int {
+  var people = others
+  people.append("Me")
+
+  var maxHappy = 0
+  for seating in people.permutations() {
+    var happy = points[Pair(seating.first!, seating.last!), default:0]
+    for (lhs, rhs) in seating.adjacentPairs() {
+      happy += points[Pair(lhs, rhs), default:0]
+    }
+    maxHappy = max(happy, maxHappy)
+  }
+  return maxHappy;
 }
 
 static func main() throws {

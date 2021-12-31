@@ -56,7 +56,16 @@ static func part1(_ ingredients:[Ingredient]) -> Int {
 }
 
 static func part2(_ ingredients:[Ingredient]) -> Int {
-  return 0;
+  var parts = Array(repeating:0, count:ingredients.count)
+  var best = 0
+  TestMix(&parts, depth: 0, remainder: 100) {
+    let m = mix($0, ingredients)
+    if (m.calories == 500) {
+      let s = score(m)
+      best = max(best, s)
+    }
+  }
+  return best
 }
 
 static func main() throws {

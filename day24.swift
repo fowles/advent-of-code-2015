@@ -2,29 +2,19 @@ import Foundation;
 
 struct Day24 {
 
-static func canSplit(target: Int, orig:[Int], used:[Int]) -> Bool {
-  var v = orig
-  v.removeAll { used.contains($0) }
-  for c in 5...v.count-5 {
+static func split(target: Int, groups: Int, from:[Int], without:[Int]) -> Int {
+  if groups == 1 {
+    return target  // not actually entanglement, but doesn't matter
+  }
+
+  var v = from
+  v.removeAll { without.contains($0) }
+  for c in 0...v.count {
     for p in v.combinations(ofCount:c) {
       if p.reduce(0, +) != target {
         continue
       }
-      return true
-    }
-  }
-  return false
-}
-
-
-static func part1(_ raw:[Int]) -> Int {
-  let target = raw.reduce(0, +)/3
-  for c in 5...raw.count-5 {
-    for p in raw.combinations(ofCount:c) {
-      if p.reduce(0, +) != target {
-        continue
-      }
-      if canSplit(target:target, orig:raw, used:p) {
+      if split(target:target, groups:groups - 1, from:v, without:p) != 0 {
         return p.reduce(1, *)
       }
     }
@@ -32,8 +22,15 @@ static func part1(_ raw:[Int]) -> Int {
   return 0
 }
 
+
+static func part1(_ raw:[Int]) -> Int {
+  let target = raw.reduce(0, +)/3
+  return split(target:target, groups:3, from:raw, without:[])
+}
+
 static func part2(_ raw:[Int]) -> Int {
-  return 0;
+  let target = raw.reduce(0, +)/4
+  return split(target:target, groups:4, from:raw, without:[])
 }
 
 static func main() throws {
